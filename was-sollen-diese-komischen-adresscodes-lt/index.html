@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="author" content="Christian Mayer" />
+    <title>Wegue - WebGIS-Anwendungen mit OpenLayers und Vue.js | Vortrag auf der AGIT 2018, Salzburg</title>
+    <meta name="description" content="Wegue - WebGIS-Anwendungen mit OpenLayers und Vue.js" />
+    <!--[if lt IE 9]>
+    <script src="../shared/lib/reveal.js-3.6.0/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="../shared/lib/reveal.js-3.6.0/css/reveal.css" />
+    <link rel="stylesheet" href="../shared/lib/reveal.js-3.6.0/css/theme/white.css" />
+
+    <!-- <link href="https://fonts.googleapis.com/css?family=Inconsolata|Lato|Merriweather" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Fjalla+One|Cantarell" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/css/customized.css" />
+    <link rel="stylesheet" href="../shared/css/meggsimum.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../shared/lib/reveal.js-3.6.0/lib/css/zenburn.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ?
+        '../shared/lib/reveal.js-3.6.0/css/print/pdf.css' :
+        '../shared/lib/reveal.js-3.6.0/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+
+      if (window.location.search.match( /print-pdf/gi )) {
+        var linkCustomPrint = document.createElement( 'link' );
+        linkCustomPrint.rel = 'stylesheet';
+        linkCustomPrint.type = 'text/css';
+        linkCustomPrint.href = '../shared/css/meggsimum-print.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( linkCustomPrint );
+      }
+    </script>
+
+  </head>
+  <body>
+
+
+<!-- BEGIN OF SLIDES -->
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section id="start">
+          <h1>Wegue</h1>
+          <h3>WebGIS-Anwendungen mit OpenLayers und Vue.js</h3>
+          <p>
+            <small>Christian Mayer</small>
+            <br>
+            <small>meggsimum - Büro für Geoinformatik</small>
+          </p>
+          <p>
+            <span style="font-size: small;">AGIT 2018, Salzburg, 04.07.2018</small>
+          </p>
+        </section>
+
+        <section id="toc">
+          <h2>Gliederung</h2>
+          <ul>
+            <li>Über&hellip;</li>
+            <li>Motivation</li>
+            <li>Das Wegue Projekt</li>
+            <li>Anwendungsaufbau</li>
+            <li>Beispiele</li>
+          </ul>
+        </section>
+
+        <section id="author-christian-mayer">
+          <h2>Christian Mayer</h2>
+          <div class="split-info">
+            <div class="part" style="width:35%">
+              <img src="../shared/img/chris-mayer.jpg" class="plain" width="200"/><br />
+              <small>
+                <a class="email" href="mailto:chris@meggsimum">chris@meggsimum.de</a><br />
+                <a class="github" href="https://github.com/chrismayer/">@chrismayer</a><br />
+                <a class="twitter" href="https://twitter.com/geofootballer/">@geofootballer</a><br />
+              </small><br />
+            </div>
+            <div class="part"  style="width:60%">
+              <div class="enumeration">
+                <ul>
+                  <li>Geoinformatiker</li>
+                  <li>Softwareentwickler &amp; -architekt</li>
+                  <li>Kernentwickler und PSC Mitglied GeoExt</li>
+                  <li>Sprecher &amp; Trainer <br /> national &amp; international</li>
+                  <li>OSGeo Foundation Charter Member</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div style="clear:both"></div>
+        </section>
+
+        <section id="about-company-meggsimum">
+          <h2>meggsimum</h2>
+          <!-- <h2><img src="../shared/img/meggsimum-logo-s-rgb-500.png" class="plain" /></h2> -->
+          <div class="split-info">
+            <div class="part" style="width:35%">
+              <img src="../shared/img/meggsimum-logo-s-rgb-500.png" class="plain" />
+              <br /><br />
+              <a class="github" style="font-size: smaller;" href="https://github.com/meggsimum/">@meggsimum</a><br />
+              <a class="twitter" style="font-size: smaller;" href="https://twitter.com/meggsimum/">@meggsimum</a>
+            </div>
+            <div class="part" style="width:60%">
+              <div class="enumeration">
+                <ul>
+                  <li><a href="https://meggsimum.de/">meggsimum.de</a></li>
+                  <li>Dienstleistungen im Bereich GIS, Webmapping &amp; GDI</li>
+                  <li>Maßgeschneiderte WebGIS-Lösungen</li>
+                  <li>Softwarekonzepte und Softwareentwicklung</li>
+                  <li>Geodaten</li>
+                  <li>Beratung und Schulung</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div style="clear:both"></div>
+        </section>
+
+        <section>
+          <h2>Naming is hard 😊😵😊</h2>
+          <p>
+            vue-ol-webapp-boilerplate ➡️
+            <span style="font-weight: bold;">We</span>b<span style="font-weight: bold;">G</span>IS with V<span style="font-weight: bold;">ue</span>.js and OpenLayers ➡️
+            <span style="font-weight: bold;">Wegue</span>
+          </p>
+
+          <img src="img/wagyu.jpg" alt="">
+          <p style="margin-top: 0; font-size: 11px;">
+            By <a href="//commons.wikimedia.org/wiki/User:Cgoodwin" title="User:Cgoodwin">Cgoodwin</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="http://creativecommons.org/licenses/by/3.0" title="Creative Commons Attribution 3.0">CC BY 3.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=3575704">Link</a>
+          </p>
+        </section>
+
+        <section>
+          <h2>Motivation</h2>
+          <h4>Yet another JS-Webmapping Framework?</h4>
+
+          <img src="img/word-cloud-js-frameworks.png" alt="">
+        </section>
+
+        <section>
+          <h2>Motivation</h2>
+          <ul>
+            <li>Aufhänger: Kundenprojekt</li>
+            <li>Flexible Lizenz (Kein GPL)</li>
+            <li>Optimiert für alle Endgeräte</li>
+            <li>EcmaScript fähig</li>
+            <!-- <li>Flexibel einsetzbar (Standalone & Embedded)</li> -->
+            <li>Konfigurierbar</li>
+            <li>Schlankes WebGIS Template für weitere Anwendungen</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Wegue</h2>
+          <ul>
+            <li>Template für leichtgewichtigen WebGIS-Client-Anwendungen</li>
+            <li>Lizenz: BSD-2-Clause</li>
+            <li>Kombiniert auf Vue.js und OpenLayers</li>
+            <li>Konfigurierbar: Erweitertes HTML und/oder JSON</li>
+            <li>Wiederverwendbare WebGIS-UI-Komponenten</li>
+            <li>Beliebiger JavaScript-Code ergänzbar</li>
+            <li><a href="https://github.com/meggsimum/wegue" title="User:Cgoodwin">Code (github)</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Vue.js</h2>
+          <ul>
+            <li>Clientseitiges JavaScript-Webframework (MVVM)</li>
+            <li>Lizenz: MIT</li>
+            <li>Flexibel einsetzbar (Standalone & Embedded)</li>
+            <li>Einfache API, leicht zu erlernen</li>
+            <li>Projektstruktur ohne zu viele Einschränkungen</li>
+            <li>Two-Way-Binding, Direktiven, (vererbbare) Komponenten, ...</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>OpenLayers</h2>
+          <blockquote>
+            A high-performance, feature-packed library for all your mapping needs.
+            <footer>&mdash; <cite><a href="https://openlayers.org/">openlayers.org, 02. Juli 2018</a></cite></footer>
+          </blockquote>
+          <ul>
+            <li>JavaScript Mapping-Bibliothek</li>
+            <li>Lizenz: BSD</li>
+            <li>OSGeo Projekt</li>
+            <li>Viele Daten- & Layerquellen, Interaktionen & Steuerelemente, ...</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Wegue Technik</h2>
+            <img src="img/wegue-architecture.png" class="plain" />
+        </section>
+
+        <section>
+          <h2>Unterstützte Layertypen</h2>
+          <ul>
+            <li>OGC WMS</li>
+            <li>XYZ (TMS, WMTS, etc.)</li>
+            <li>Vektor-Layer (GeoJSON oder KML)</li>
+            <li>VectorTiles (MVT, GeoJSON oder TopoJSON)</li>
+            <li>OpenStreetMap</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Komponenten</h2>
+          <ul>
+            <li>Layer-Liste zur Steuerung der Sichtbarkeiten der Kartenlayer</li>
+            <li>Messwerkzeuge für Strecken und Flächen</li>
+            <li>Selektionswerkzeug für Vektordaten</li>
+            <li>Attributanzeige</li>
+            <li>Koordinatenanzeige</li>
+            <li>Toolbar zur Platzierung von Werkzeugen</li>
+            <li>Hilfe-Fenster zur Bereitstellung von Hilfetexten für den Anwender</li>
+            <li>Logo-Element</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>WebGIS-App (Einfach)</h2>
+          <p>
+             In <code>src/WguApp.vue</code> Template erweitern:
+          </p>
+          <pre><code data-trim>
+            <wgu-map :zoom="14" :center=[925067,6348943]>
+
+              <wgu-layer-osm slot="map-layers" :opacity="1.0" name="OSM"></wgu-layer-osm>
+
+            </wgu-map>
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>WebGIS-App (Einfach)</h2>
+          <img src="img/simple-osm-app.jpg" alt="">
+        </section>
+
+        <section>
+          <h2>WebGIS-App (Erweitert)</h2>
+          <p>
+             In <code>src/WguApp.vue</code> Template erweitern:
+          </p>
+          <pre><code data-trim>
+            <wgu-app-header
+              title="Vue.js / OpenLayers WebGIS">
+
+              <v-toolbar-items slot="wgu-tb-buttons">
+
+                  <wgu-toggle-layerlist-button></wgu-toggle-layerlist-button>
+
+                  <wgu-toggle-measuretool-button></wgu-toggle-measuretool-button>
+
+                  <wgu-toggle-helpwin-button></wgu-toggle-helpwin-button>
+
+              </v-toolbar-items>
+
+            </wgu-app-header>
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>WebGIS-App (Erweitert)</h2>
+          <img src="img/advanced-osm-app.jpg" alt="">
+        </section>
+
+        <section>
+          <h2>JSON-Konfiguration</h2>
+          <ul>
+            <li>App-Template wird kompiliert</li>
+            <ul>
+              <li>Keine Veränderung ohne Build-Prozess</li>
+              <li>Unflexibel</li>
+              <li>Schwierig für "Nicht-Coder"</li>
+            </ul>
+          </ul>
+          <h3 style="margin-top:30px;">➡️ Konfiguration in JSON-Datei</h3>
+        </section>
+
+        <section>
+          <h2>JSON-Konfiguration</h2>
+          <pre><code data-trim>
+{
+  "title": "Vue.js / OpenLayers WebGIS",
+  "logo": "static/img/meggsimum-icon-rw-500.png",
+  "logoSize": "100",
+  "mapZoom": 14,
+  "mapCenter": [925067, 6348943],
+  "mapLayers": [
+    {
+      "type": "WMS",
+      "lid": "ahocevar-wms",
+      "name": "WMS (ahocevar)",
+      "format": "image/png",
+      "layers": "topp:states",
+      "url": "https://ahocevar.com/geoserver/wms"
+    },
+    {
+      "type": "OSM",
+      "lid": "osm-bg",
+      "name": "OSM",
+      "visibility": true
+    }
+  ]
+}
+          </code></pre>
+
+        </section>
+
+        <section>
+          <h1>Beispiele</h1>
+        </section>
+
+        <section
+          class="print-screenie"
+          data-background-image="img/wegue-app-1.png"
+          data-background-size="contain">
+          <p>&nbsp;</p>
+        </section>
+
+        <section
+          class="print-screenie"
+          data-background-image="img/wegue-mapclick.png"
+          data-background-size="contain">
+          <p>&nbsp;</p>
+        </section>
+
+        <section
+          class="print-screenie"
+          data-background-image="img/wegue-measure.png"
+          data-background-size="contain">
+          <p>&nbsp;</p>
+        </section>
+
+        <section
+          class="print-screenie"
+          data-background-image="img/wegue-traffic-analytics.png"
+          data-background-size="contain">
+          <p>&nbsp;</p>
+        </section>
+
+        <section
+          class="print-screenie"
+          data-background-image="img/wegue-starkregengefahr.png"
+          data-background-size="contain">
+          <p>&nbsp;</p>
+        </section>
+
+        <section>
+          <h2>Ausblick</h2>
+          <ul>
+            <li>Upgrade OpenLayers v5.0.0 (<a href="https://github.com/chrismayer/wegue/tree/ol5" target="_blank">ongoing</a>)</li>
+            <li>Feature-Grid</li>
+            <li>Leitfaden / Tool zur App-Erzeugung (Boilerplate)</li>
+            <li>Herauslösung der Komponenten als Bibliothek?</li>
+            <li>Integration von bestehenden OL-Vue Bindings?</li>
+          </ul>
+        </section>
+
+        <section id="thanks-questions">
+          <h4>Vielen Dank</h4>
+          <hr />
+          <h1 style="font-size:3.0em">Fragen &amp; Anmerkungen?</h1>
+          <hr />
+          <p class="subtle">
+            <a href="#/imprint">Impressum</a>
+          </p>
+        </section>
+
+        <section id="imprint">
+          <h2>Impressum</h2>
+          <h4>Autor</h4>
+          <div style="">
+            <address style="">
+              <strong>Christian Mayer</strong><br />
+              <span style="font-size: smaller;">
+              meggsimum Geoinformatik<br />
+              Hauptstraße 165a<br />
+              67125 Dannstadt-Schauernheim<br />
+              info@meggsimum.de
+              </span>
+            </address>
+          </div>
+          <h4 style="margin-top: 20px;">Lizenz</h4>
+          <p id="license">
+            Diese Folien sind unter <a
+            href="http://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA</a>
+            veröffentlicht.
+          </p>
+          <p>
+            <a href="https://chrismayer.github.io/agit2018/wegue-talk/#/start">Vortragsfolien</a>,
+            <a href="https://chrismayer.github.io/agit2018/wegue-talk/wegue_webgis_mit_vue_und_ol.pdf">PDF-Version</a>,
+            <a href="https://github.com/chrismayer/agit2018">git repository</a>
+          </p>
+        </section>
+
+      </div>
+    </div>
+
+
+<!-- END OF SLIDES -->
+
+
+    <script src="../shared/lib/reveal.js-3.6.0/lib/js/head.min.js"></script>
+    <script src="../shared/lib/reveal.js-3.6.0/js/reveal.js"></script>
+    <script>
+(function () {
+  var revealPath = '../shared/lib/reveal.js-3.6.0/';
+  // More info https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    history: true,
+
+    // More info https://github.com/hakimel/reveal.js#dependencies
+    dependencies: [
+      {
+        src: revealPath + 'plugin/markdown/marked.js'
+      },
+      {
+        src: revealPath + 'plugin/markdown/markdown.js'
+      },
+      {
+        src: revealPath + 'plugin/notes/notes.js',
+        async: true
+      },
+      {
+        src: revealPath + 'plugin/highlight/highlight.js',
+        async: true,
+        callback: function() {
+          hljs.initHighlightingOnLoad();
+        }
+      }
+    ]
+  });
+}());
+    </script>
+  </body>
+</html>

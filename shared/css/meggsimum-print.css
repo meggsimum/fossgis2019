@@ -1,0 +1,21 @@
+
+.slide {
+  background-image: unset;
+}
+
+.slide-background {
+  background-image: url(../img/meggsimum-icon-rw-150.png);
+  background-repeat: no-repeat;
+  background-position: 1% 99% !important;
+  background-size: auto !important;
+}
+
+.print-screenie {
+  background-size: contain !important;
+  top: 0 !important;
+}
+
+.screenie-h2 {
+  position: inherit;
+  margin-top: 50px !important;
+}
